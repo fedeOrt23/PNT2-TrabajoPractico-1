@@ -2,21 +2,26 @@
 
 import dotenv from 'dotenv';
 dotenv.config();
+const CLIENT_ID = process.env.CLIENT_ID;
 
-function getEnv(keys, fallback) {
-  const list = Array.isArray(keys) ? keys : [keys];
-  for (const k of list) {
-    const v = process.env[k];
-    if (v && v.length > 0) return v;
-  }
-  if (fallback !== undefined) return fallback;
-  throw new Error(`Missing environment variable. Checked keys: ${list.join(', ')}`);
+const CLIENT_SECRET =
+  process.env.CLIENT_SECRET || process.env.Client_secret;
+
+const SPOTIFY_MARKET =
+  process.env.SPOTIFY_MARKET || process.env.SPOTIFY_MARET || 'ES';
+
+
+if (!CLIENT_ID) {
+  throw new Error('Falta la variable de entorno CLIENT_ID');
+}
+if (!CLIENT_SECRET) {
+  throw new Error('Falta la variable de entorno CLIENT_SECRET (o Client_secret)');
 }
 
 const Settings = Object.freeze({
-  clientId:      getEnv('CLIENT_ID'),
-  clientSecret:  getEnv(['CLIENT_SECRET', 'Client_secret']),
-  spotifyMarket: getEnv(['SPOTIFY_MARKET', 'SPOTIFY_MARET'], 'US'),
+  clientId: CLIENT_ID,
+  clientSecret: CLIENT_SECRET,
+  spotifyMarket: SPOTIFY_MARKET,
 });
 
 export default Settings;
