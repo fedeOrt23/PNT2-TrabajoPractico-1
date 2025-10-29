@@ -1,5 +1,3 @@
-'use server';
-
 import dotenv from 'dotenv';
 dotenv.config();
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -9,6 +7,9 @@ const CLIENT_SECRET =
 
 const SPOTIFY_MARKET =
   process.env.SPOTIFY_MARKET || process.env.SPOTIFY_MARET || 'ES';
+
+
+const ACCCES_TOKEN = process.env.ACCCES_TOKEN || process.env.Accces_token;
 
 
 if (!CLIENT_ID) {
@@ -22,7 +23,10 @@ const Settings = Object.freeze({
   clientId: CLIENT_ID,
   clientSecret: CLIENT_SECRET,
   spotifyMarket: SPOTIFY_MARKET,
+acccesToken: ACCCES_TOKEN,
 });
 
 
 export default Settings;
+
+
