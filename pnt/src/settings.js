@@ -24,4 +24,5 @@ const Settings = Object.freeze({
   spotifyMarket: SPOTIFY_MARKET,
 });
 
+
 export default Settings;
