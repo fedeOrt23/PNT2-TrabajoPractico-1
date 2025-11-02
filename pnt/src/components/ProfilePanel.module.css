@@ -1,0 +1,124 @@
+.panel {
+  width: 280px;
+  background: linear-gradient(180deg, rgba(30, 30, 30, 0.95), rgba(12, 12, 12, 0.92));
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 0 20px 36px rgba(0, 0, 0, 0.35);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(231, 76, 60, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #fff;
+}
+
+.label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 4px 0 0;
+}
+
+.tagline {
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+.settingsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.setting {
+  border-radius: 16px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.settingLabel {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  color: #fff;
+}
+
+.settingDescription {
+  font-size: 13px;
+  margin: 4px 0 0;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.settingButton {
+  border: 1px solid rgba(231, 76, 60, 0.6);
+  background: rgba(231, 76, 60, 0.18);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.settingButton:hover {
+  background: rgba(231, 76, 60, 0.3);
+  border-color: rgba(231, 76, 60, 0.8);
+}
+
+.mainButton {
+  margin-top: 4px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(120deg, #e74c3c, #c0392b);
+  color: #fff;
+  font-weight: 600;
+  padding: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mainButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 18px rgba(231, 76, 60, 0.3);
+}
+
+@media (max-width: 960px) {
+  .panel {
+    width: 100%;
+    flex-direction: column;
+    padding: 20px;
+  }
+}

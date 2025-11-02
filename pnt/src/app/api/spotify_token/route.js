@@ -22,7 +22,7 @@ async function fetchToken() {
   if (!response.ok) {
     const errorBody = await response.text();
     throw new Error(
-      `Spotify token request failed: ${response.status} ${response.statusText} – ${errorBody}`
+      `Spotify token request failed: ${response.status} ${response.statusText} - ${errorBody}`
     );
   }
 
@@ -44,8 +44,14 @@ export async function GET() {
       await fetchToken();
     }
 
+    const payload = {
+      access_token: accessToken,
+      expires_at: expiresAt,
+      expires_in: Math.max(0, expiresAt - now),
+    };
+
     return NextResponse.json(
-      { access_token: accessToken, expires_at: expiresAt },
+      payload,
       { status: 200, headers: { "Cache-Control": "no-store" } }
     );
   } catch (error) {
@@ -59,4 +65,3 @@ export async function GET() {
     );
   }
 }
-
