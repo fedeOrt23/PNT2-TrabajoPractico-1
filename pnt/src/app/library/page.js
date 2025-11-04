@@ -5,7 +5,6 @@ export default function LibraryPage() {
   return (
     <div className={styles.page}>
       <div className={styles.shell}>
-        <SidebarNav />
         <main className={styles.main}>
           <header className={styles.hero}>
             <p className={styles.eyebrow}>MusicHub</p>
@@ -19,7 +18,10 @@ export default function LibraryPage() {
 
           <div className={styles.emptyState}>
             <p>Todavia no agregaste contenido a tu biblioteca.</p>
-            <p>Cuando conectes tu cuenta, vas a ver tus playlists y favoritos aca.</p>
+            <p>
+              Cuando conectes tu cuenta, vas a ver tus playlists y favoritos
+              aca.
+            </p>
           </div>
         </main>
       </div>

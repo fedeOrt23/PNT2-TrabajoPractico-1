@@ -5,7 +5,6 @@ export default function ArtistsPage() {
   return (
     <div className={styles.page}>
       <div className={styles.shell}>
-        <SidebarNav />
         <main className={styles.main}>
           <header className={styles.hero}>
             <p className={styles.eyebrow}>MusicHub</p>
@@ -19,7 +18,9 @@ export default function ArtistsPage() {
 
           <div className={styles.emptyState}>
             <p>No hay artistas cargados todavia.</p>
-            <p>Cuando tengas un endpoint listo, podras listar tus favoritos aca.</p>
+            <p>
+              Cuando tengas un endpoint listo, podras listar tus favoritos aca.
+            </p>
           </div>
         </main>
       </div>

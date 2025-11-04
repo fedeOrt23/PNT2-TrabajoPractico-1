@@ -46,8 +46,10 @@ export default async function Home() {
     console.error("Top albums fetch failed:", albumsResult.reason);
   }
 
-  const topArtists = artistsResult.status === "fulfilled" ? artistsResult.value : [];
-  const topAlbums = albumsResult.status === "fulfilled" ? albumsResult.value : [];
+  const topArtists =
+    artistsResult.status === "fulfilled" ? artistsResult.value : [];
+  const topAlbums =
+    albumsResult.status === "fulfilled" ? albumsResult.value : [];
   let topTracks = [];
 
   if (topArtists.length > 0) {
@@ -104,7 +106,6 @@ export default async function Home() {
   return (
     <div className={styles.page}>
       <div className={styles.shell}>
-        <SidebarNav />
         <main className={styles.main}>
           <div className={styles.topRow}>
             <header className={styles.hero}>
@@ -114,7 +115,6 @@ export default async function Home() {
                 Encontra tu musica favorita y descubri nuevas canciones.
               </p>
             </header>
-            <ProfilePanel />
           </div>
 
           {sections.length > 0 ? (
