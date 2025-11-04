@@ -1,13 +1,14 @@
 import "server-only";
+import Settings from "@/settings";
 
-const SPOTIFY_API_BASE =
-  process.env.SPOTIFY_API_BASE?.trim() || "https://api.spotify.com";
-const INTERNAL_TOKEN_PATH =
-  process.env.INTERNAL_TOKEN_PATH?.trim() || "/api/spotify_token";
+const SPOTIFY_API_BASE = Settings.spotifyApiBase;
+const INTERNAL_TOKEN_PATH = Settings.internalTokenPath;
+const SETTINGS_MARKET = Settings.spotifyMarket?.trim();
 const DEFAULT_MARKET =
-  process.env.SPOTIFY_MARKET?.trim() ||
-  process.env.MARKET?.trim() ||
-  "ES";
+  (SETTINGS_MARKET && SETTINGS_MARKET.length > 0
+    ? SETTINGS_MARKET
+    : process.env.SPOTIFY_MARKET?.trim() ||
+      process.env.MARKET?.trim()) || "ES";
 
 const MARKET_CODE = (DEFAULT_MARKET || "ES").toUpperCase();
 
