@@ -1,141 +1,107 @@
 .page {
-  --background: #fafafa;
-  --foreground: #fff;
-
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
-  display: flex;
   min-height: 100vh;
-  align-items: center;
-  justify-content: center;
+  background: radial-gradient(circle at top left, #331414 0%, #050505 55%, #020202 100%);
+  color: #f5f5f5;
+  padding: 64px 24px 96px;
   font-family: var(--font-geist-sans);
-  background-color: var(--background);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.shell {
+  width: min(1200px, 100%);
+  display: flex;
+  gap: 32px;
+  align-items: stretch;
 }
 
 .main {
+  flex: 1;
   display: flex;
-  min-height: 100vh;
-  width: 100%;
-  max-width: 800px;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
+  gap: 32px;
 }
 
-.intro {
+.topRow {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
   gap: 24px;
+  align-items: stretch;
 }
 
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
+.hero {
+  background: linear-gradient(160deg, rgba(34, 34, 34, 0.9), rgba(12, 12, 12, 0.92));
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 24px 40px rgba(0, 0, 0, 0.35);
+  flex: 1;
 }
 
-.intro p {
-  max-width: 440px;
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.hero h1 {
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.description {
   font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 600px;
+  margin: 0;
 }
 
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.ctas {
+.sections {
   display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
+  flex-direction: column;
+  gap: 28px;
 }
 
-.ctas a {
+.emptyState {
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 18px;
+  padding: 32px;
+  background: rgba(12, 12, 12, 0.6);
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
-  cursor: pointer;
-  width: fit-content;
-  font-weight: 500;
-}
-
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
+  flex-direction: column;
   gap: 8px;
+  font-size: 16px;
 }
 
-a.secondary {
-  border-color: var(--button-secondary-border);
-}
-
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
-}
-
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
-  }
-
-  .intro {
-    gap: 16px;
-  }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
-
+@media (max-width: 960px) {
   .page {
-    --background: #000;
-    --foreground: #000;
+    padding: 48px 16px 80px;
+  }
 
-    --text-primary: #ededed;
-    --text-secondary: #999;
+  .shell {
+    flex-direction: column;
+    gap: 24px;
+  }
 
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
+  .topRow {
+    flex-direction: column;
+  }
+
+  .hero {
+    padding: 28px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
   }
 }
