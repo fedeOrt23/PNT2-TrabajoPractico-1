@@ -1,13 +1,14 @@
 import "server-only";
+import Settings from "@/settings";
 
-const SPOTIFY_API_BASE =
-  process.env.SPOTIFY_API_BASE?.trim() || "https://api.spotify.com";
-const INTERNAL_TOKEN_PATH =
-  process.env.INTERNAL_TOKEN_PATH?.trim() || "/api/spotify_token";
+const SPOTIFY_API_BASE = Settings.spotifyApiBase;
+const INTERNAL_TOKEN_PATH = Settings.internalTokenPath;
+const SETTINGS_MARKET = Settings.spotifyMarket?.trim();
 const DEFAULT_MARKET =
-  process.env.SPOTIFY_MARKET?.trim() ||
-  process.env.MARKET?.trim() ||
-  "ES";
+  (SETTINGS_MARKET && SETTINGS_MARKET.length > 0
+    ? SETTINGS_MARKET
+    : process.env.SPOTIFY_MARKET?.trim() ||
+      process.env.MARKET?.trim()) || "ES";
 
 const MARKET_CODE = (DEFAULT_MARKET || "ES").toUpperCase();
 
@@ -209,6 +210,11 @@ export async function getTopArtists({
   }));
 }
 
+//este endpoint no es exactamente no es que ddevuelve el top de artistas, siemplemente para ese genero 
+// genre:pop. Spotify devuelve los artistas que mejor coinciden con esa búsqueda (ordenados por relevancia), no necesariamente los más escuchados del momento
+// para saber cual usar, habría que usar la API de Spotify con autenticación de usuario, y obtener los artistas top del usuario autenticado.
+// o tambien buscar en un Playlist concreta de Spotify que contenga los artistas más populares del momento en ese género.
+
 export async function getTopAlbums({
   limit = 5,
   country = MARKET_CODE,
@@ -228,7 +234,7 @@ export async function getTopAlbums({
     artist: album.artists?.map((a) => a.name).join(", "),
     image: album.images?.[0]?.url ?? null,
     releaseDate: album.release_date,
-    rank: index + 1,
+    rank: index + 1, // El map recibe los elementos en orden junto con su índice (index), que empieza en 0. Para mostrar un ranking “humano” (1°, 2°, 3°, …) se suma 1 al índice. Así, el primer elemento (index === 0) queda con rank: 1, el segundo con rank: 2, etc.
   }));
 }
 
