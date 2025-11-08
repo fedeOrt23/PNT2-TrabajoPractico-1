@@ -1,7 +1,21 @@
 import Image from "next/image";
 import styles from "./TopListSection.module.css";
 
-export default function TopListSection({ title, items, accentColor = "#e74c3c" }) {
+export default function TopListSection({ title, items = [], accentColor = "#e74c3c" }) {
+  // Validación temprana
+  if (!items || items.length === 0) {
+    return (
+      <section className={styles.section} style={{ "--accent-color": accentColor }}>
+        <header className={styles.header}>
+          <h2>{title}</h2>
+        </header>
+        <p style={{ textAlign: 'center', padding: '1rem', color: '#666' }}>
+          No hay datos disponibles
+        </p>
+      </section>
+    );
+  }
+
   return (
     <section className={styles.section} style={{ "--accent-color": accentColor }}>
       <header className={styles.header}>

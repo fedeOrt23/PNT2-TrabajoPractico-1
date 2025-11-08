@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import AuthProvider from "./contexts/AuthProvider";
 import SidebarNav from "@/components/SidebarNav";
 import ProfilePanel from "@/components/ProfilePanel";
 
@@ -22,35 +23,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <div
-          style={{
-            display: "flex",
-            minHeight: "100vh",
-            gap: "20px",
-            padding: "20px",
-          }}
-        >
-          <SidebarNav />
-          <div
-            style={{
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              gap: "20px",
-            }}
-          >
-            <header
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                padding: "10px 20px",
-              }}
-            >
-              <ProfilePanel />
-            </header>
-            <main style={{ flex: 1 }}>{children}</main>
-          </div>
-        </div>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
