@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SidebarNav from "@/components/SidebarNav";
 import ProfilePanel from "@/components/ProfilePanel";
+import { LibraryProvider } from "../context/LibraryContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,37 +21,39 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <div
-          style={{
-            display: "flex",
-            minHeight: "100vh",
-            gap: "20px",
-            padding: "20px",
-          }}
-        >
-          <SidebarNav />
+    <html lang="es">
+      <body>
+        <LibraryProvider>
           <div
             style={{
-              flex: 1,
               display: "flex",
-              flexDirection: "column",
+              minHeight: "100vh",
               gap: "20px",
+              padding: "20px",
             }}
           >
-            <header
+            <SidebarNav />
+            <div
               style={{
+                flex: 1,
                 display: "flex",
-                justifyContent: "flex-end",
-                padding: "10px 20px",
+                flexDirection: "column",
+                gap: "20px",
               }}
             >
-              <ProfilePanel />
-            </header>
-            <main style={{ flex: 1 }}>{children}</main>
+              <header
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  padding: "10px 20px",
+                }}
+              >
+                <ProfilePanel />
+              </header>
+              <main style={{ flex: 1 }}>{children}</main>
+            </div>
           </div>
-        </div>
+        </LibraryProvider>
       </body>
     </html>
   );

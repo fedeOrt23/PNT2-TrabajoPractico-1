@@ -1,0 +1,157 @@
+/* Contenedor de fila para inputs + botón */
+.inputRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+/* Estilo del input principal */
+.input {
+  flex: 1 1 220px;
+  min-width: 180px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  color: #e6eef8;
+  box-shadow: none;
+  font-size: 14px;
+  transition: box-shadow 160ms ease, transform 120ms ease, border-color 160ms ease;
+}
+
+/* Placeholder */
+.input::placeholder {
+  color: #9aa6b2;
+  opacity: 1;
+}
+
+/* Focus */
+.input:focus {
+  outline: none;
+  border-color: rgba(124,58,237,0.9);
+  box-shadow: 0 6px 20px rgba(124,58,237,0.12);
+  transform: translateY(-1px);
+}
+
+/* Botón de agregar */
+.addButton {
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #6f0f0f 0%, #0b0000 100%); /* bordeó -> negro */
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 8px 22px rgba(11, 0, 0, 0.45);
+  transition: transform 120ms ease, opacity 120ms ease, filter 120ms ease;
+}
+
+/* Interacciones del botón */
+.addButton:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+.addButton:active {
+  transform: translateY(0);
+  opacity: 0.95;
+}
+
+/* Botón guardado  */
+.itemAction.saved {
+  background: linear-gradient(90deg, #6f0f0f 0%, #120000 100%);
+  color: #fff;
+  border: none;
+  box-shadow: 0 8px 18px rgba(17, 0, 0, 0.28);
+}
+
+
+.itemAction {
+  margin-left: 12px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.04);
+  cursor: pointer;
+  font-weight: 600;
+  color: #f8fafc;
+  transition: background 120ms ease, transform 120ms ease, border-color 120ms ease;
+}
+
+/* Listado de items dentro de la biblioteca */
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%);
+  border: 1px solid rgba(255,255,255,0.03);
+  font-size: 14px;
+}
+
+/* Nombre y metadatos dentro del item */
+.itemMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.itemTitle {
+  font-weight: 600;
+  color: #f8fafc;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.itemSubtitle {
+  font-size: 13px;
+  color: #9aa6b2;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* Botón pequeño para guardar/quitar en cada item */
+.itemAction {
+  margin-left: 12px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.06);
+  cursor: pointer;
+  font-weight: 600;
+  color: #f8fafc;
+  transition: background 120ms ease, transform 120ms ease;
+}
+
+.itemAction.saved {
+  background: linear-gradient(90deg,#8f2416,#09072b);
+  color: white;
+  border: none;
+  box-shadow: 0 8px 18px rgba(79,70,229,0.12);
+}
+
+/* Responsive tweaks */
+@media (max-width: 520px) {
+  .inputRow {
+    gap: 8px;
+  }
+  .addButton {
+    padding: 9px 12px;
+  }
+}
