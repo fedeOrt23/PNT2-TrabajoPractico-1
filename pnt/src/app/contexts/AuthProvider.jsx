@@ -9,7 +9,7 @@ export const useAuth = () => useContext(AuthContext)
 
 export default function AuthProvider({children}) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   const router = useRouter()
@@ -28,6 +28,8 @@ export default function AuthProvider({children}) {
       }
     } catch (error) {
       console.log("Error loading auth from localStorage:", error);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
