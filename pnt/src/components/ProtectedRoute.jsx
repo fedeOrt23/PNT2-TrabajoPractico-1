@@ -9,12 +9,12 @@ export default function ProtectedRoute({ children }) {
   const router = useRouter()
 
   useEffect(() => {
+    console.log("ProtectedRoute - isAuthenticated: ", isAuthenticated);
     if (!loading && !isAuthenticated) {
       router.replace('/login')
     }
   }, [isAuthenticated, loading, router])
 
-  // Mostrar loading mientras verifica autenticación
   if (loading) {
     return (
       <div style={{
@@ -28,7 +28,6 @@ export default function ProtectedRoute({ children }) {
     )
   }
 
-  // No mostrar nada si no está autenticado (evita flash de contenido)
   if (!isAuthenticated) {
     return null
   }

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import styles from "./ProfilePanel.module.css";
+import { useAuth } from "@/app/contexts/AuthProvider.jsx";
 
 const menuOptions = [
   { label: "Cuenta", description: "Gestiona tu plan y preferencias", icon: "⚙️" },
@@ -10,6 +11,7 @@ const menuOptions = [
 ];
 
 export default function ProfilePanel() {
+  const { logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -31,6 +33,7 @@ export default function ProfilePanel() {
     if (option.action === "logout") {
       // Aquí puedes agregar tu lógica de cierre de sesión
       console.log("Cerrando sesión...");
+      logout();
       // Por ejemplo: router.push('/login') o llamar a una función de logout
     } else {
       console.log(`Abriendo ${option.label}`);

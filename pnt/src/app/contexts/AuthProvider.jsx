@@ -68,14 +68,14 @@ export default function AuthProvider({children}) {
 
   const logout = () => {
     setUser(null)
-    setIsAuthenticated(null)
+    setIsAuthenticated(false)
     localStorage.removeItem("user")
     localStorage.removeItem("isAuthenticated")
     router.push("/login")
   }
 
   return (
-    <AuthContext.Provider value={{user, loading, login, isAuthenticated}}>
+    <AuthContext.Provider value={{user, loading, login, logout, isAuthenticated}}>
         {children}
     </AuthContext.Provider>
   )

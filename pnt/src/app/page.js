@@ -6,7 +6,7 @@ import styles from "./page.module.css";
 export default async function Home() {
   try {
     // Primero obtenemos los artistas
-    const topArtists = await getTopArtists({ limit: 10 });
+    const topArtists = await getTopArtists({ limit: 5 });
     console.log("Top Artists:", topArtists);
 
     // Extraemos los IDs de los artistas para obtener sus tracks
@@ -15,8 +15,8 @@ export default async function Home() {
 
     // Obtenemos albums y tracks en paralelo
     const [topTracks, topAlbums] = await Promise.all([
-      getTopTracks({ artistIds, limit: 10, perArtist: 2 }),
-      getTopAlbums({ limit: 10 }),
+      getTopTracks({ artistIds, limit: 5, perArtist: 2 }),
+      getTopAlbums({ limit: 5 }),
     ]);
 
     console.log("Top Tracks:", topTracks);
