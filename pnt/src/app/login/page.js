@@ -1,4 +1,6 @@
-export default function AuthLayout({ children }) {
+import Login from "@/components/Login";
+
+export default function LoginPage() {
   return (
     <div
       style={{
@@ -9,7 +11,7 @@ export default function AuthLayout({ children }) {
         background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
       }}
     >
-      {children}
+      <Login />
     </div>
   );
 }
