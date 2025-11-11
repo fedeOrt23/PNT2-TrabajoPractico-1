@@ -15,7 +15,7 @@ const MARKET_CODE = (DEFAULT_MARKET || "ES").toUpperCase();
 let cachedToken = null;
 let cachedTokenExpiry = 0;
 
-function resolveInternalUrl(pathname) {
+function resolveInternalUrl(pathname) {  // Devuelve bien la URL absoluta para el endpoint interno dado el pathname
   if (/^https?:\/\//i.test(pathname)) {
     return pathname;
   }
@@ -37,7 +37,8 @@ function resolveInternalUrl(pathname) {
 }
 
 
-async function fetchAccessToken(forceRefresh = false) {
+async function fetchAccessToken(forceRefresh = false) { // Obtiene el token de acceso, usando caché si es posible.
+                                                        // Si esta vencido, lo renueva.
   const now = Math.floor(Date.now() / 1000);
   if (!forceRefresh && cachedToken && now < cachedTokenExpiry - 30) {
     return cachedToken;

@@ -127,3 +127,20 @@
     align-self: flex-end;
   }
 }
+
+.saveButton {
+  margin-left: auto;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  border: none;
+  background: var(--accent-color);
+  color: white;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: 0.2s;
+}
+
+.saveButton:hover {
+  opacity: 0.85;
+}
+

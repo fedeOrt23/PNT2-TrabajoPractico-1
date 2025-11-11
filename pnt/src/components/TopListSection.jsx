@@ -1,7 +1,13 @@
+"use client";
+import { useLibrary } from "@/app/contexts/LibraryContext";
+
+
 import Image from "next/image";
 import styles from "./TopListSection.module.css";
 
+
 export default function TopListSection({ title, items = [], accentColor = "#e74c3c" }) {
+  const { addToLibrary } = useLibrary();
   // Validación temprana
   if (!items || items.length === 0) {
     return (
@@ -54,6 +60,13 @@ export default function TopListSection({ title, items = [], accentColor = "#e74c
             ) : item.metric ? (
               <span className={styles.metric}>{item.metric}</span>
             ) : null}
+
+            <button
+              className={styles.saveButton}
+              onClick={() => addToLibrary(item)}
+            >
+                Guardar
+            </button>
           </li>
         ))}
       </ol>
