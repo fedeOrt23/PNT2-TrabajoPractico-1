@@ -92,7 +92,8 @@ export default function AuthProvider({children}) {
         },
         body: JSON.stringify({
           username: username,
-          name: userData.name + ' ' + userData.lastname,
+          name: userData.name,
+          lastname: userData.lastname,
           email: userData.email,
           password: userData.password,
         })

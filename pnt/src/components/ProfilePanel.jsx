@@ -3,15 +3,17 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "./ProfilePanel.module.css";
 import { useAuth } from "@/app/contexts/AuthProvider.jsx";
+import { useRouter } from "next/navigation";
 
 const menuOptions = [
-  { label: "Cuenta", description: "Gestiona tu plan y preferencias", icon: "⚙️" },
+  { label: "Cuenta", description: "Gestiona tu cuenta", icon: "⚙️", action: "profile" },
   { label: "Notificaciones", description: "Configura alertas y avisos", icon: "🔔" },
   { label: "Cerrar sesión", description: "Salir de tu cuenta", icon: "🚪", action: "logout" },
 ];
 
 export default function ProfilePanel() {
   const { logout, user } = useAuth();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -30,9 +32,11 @@ export default function ProfilePanel() {
   }, [isOpen]);
 
   const handleOptionClick = (option) => {
-    console.log(`Opción seleccionada: ${option}`);
+    console.log(option.action);
     if (option.action === "logout") {
       logout();
+    } else if (option.action === "profile") {
+      router.push("/profile");
     } else {
       console.log(`Abriendo ${option.label}`);
     }
