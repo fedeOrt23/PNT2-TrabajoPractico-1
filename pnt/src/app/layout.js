@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "MusicHub - Tu aplicación de música",
+  title: "Kapelle - Tu aplicación de música",
   description: "Explora tu música favorita",
 };
 
@@ -22,7 +22,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <AuthProvider> <LibraryProvider> {children} </LibraryProvider> </AuthProvider>
+        <AuthProvider>
+          {" "}
+          <LibraryProvider> {children} </LibraryProvider>{" "}
+        </AuthProvider>
       </body>
     </html>
   );

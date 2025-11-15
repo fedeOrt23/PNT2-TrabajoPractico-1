@@ -15,7 +15,7 @@ export default function SidebarNav() {
 
   return (
     <nav className={styles.sidebar}>
-      <div className={styles.logo}>MusicHub</div>
+      <div className={styles.logo}>Kapelle</div>
       <ul className={styles.list}>
         {navItems.map((item) => {
           const isActive =
