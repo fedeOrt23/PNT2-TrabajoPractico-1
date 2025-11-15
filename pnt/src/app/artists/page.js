@@ -1,66 +1,97 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import DashboardLayout from "@/components/DashboardLayout";
-import TopListSection from "@/components/TopListSection";
+import ArtistCard from "@/components/ArtistCard";
 import {
-  getTopArtists,
-  getTopTracks,
-  getTopAlbums,
-} from "@/lib/spotifyClient";
+  getAllArtists,
+  createArtist,
+  updateArtist,
+  deleteArtist,
+} from "@/app/api/spotify_token/services/ABMartistas";
 import styles from "../page.module.css";
-function ArtistCard({ artist, topTracks }) {
-  const description = `Con más de ${(
-    artist.followers || 0
-  ).toLocaleString("es-ES")} seguidores.`;
 
-  
-  const artistTracks = topTracks.filter(track =>
-    track.artist.includes(artist.name)
-  ).map((track, index) => ({ 
-    ...track,
-    rank: index + 1,
-  }));
-  return (
-    <div className={styles.hero}>
-      <div style={{ display: "flex", gap: "24px", alignItems: "center" }}>
-        {artist.image && (
-          <img
-            src={artist.image}
-            alt={`Foto de ${artist.name}`}
-            style={{
-              width: "100px",
-              height: "100px",
-              objectFit: "cover",
-              borderRadius: "50%",
-            }}
-          />
-        )}
-        <div>
-          <h2 style={{ fontSize: "2rem", margin: 0 }}>{artist.name}</h2>
-          <p className={styles.description} style={{ fontSize: "16px" }}>
-            {description}
-          </p>
-        </div>
-      </div>
 
-      {artistTracks.length > 0 && (
-        <div style={{ marginTop: "24px" }}>
-          <TopListSection
-            title="Canciones más conocidas"
-            items={artistTracks}
-            type="track"
-          />
-        </div>
-      )}
-    </div>
-  );
-}
+export default function ArtistsPage() {
+  const [artists, setArtists] = useState([]);
+  const [error, setError] = useState(null);
+  const router = useRouter();
 
-export default async function ArtistsPage() {
+  const fetchArtists = async () => {
+    try {
+      const data = await getAllArtists();
+      setArtists(data);
+    } catch (err) {
+      setError("No se pudieron cargar los artistas.");
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchArtists();
+  }, []);
+
+  const handleCreate = () => {
+    (async () => {
+      const name = prompt("Nombre del artista:");
+      if (name === null) return; 
+      const trimmedName = name.trim();
+      if (!trimmedName) {
+        alert("El nombre no puede estar vacío.");
+        return;
+      }
+
+      const image = prompt("URL de imagen (dejar vacío para no establecer):", "") || "";
+      if (image === null) return; 
+
+      const newArtist = {
+        name: trimmedName,
+        image: image.trim() === "" ? undefined : image.trim(),
+        followers: 0,
+      };
+
+      try {
+        await createArtist(newArtist);
+        await fetchArtists();
+        alert("Artista creado correctamente.");
+      } catch (err) {
+        console.error("Error al crear artista:\n", err);
+        alert("No se pudo crear el artista. Revisa la consola para más detalles.");
+      }
+    })();
+  };
+
+  const handleEdit = async (artist) => {
+    const newName = prompt("Editar nombre del artista:", artist.name);
+    if (newName === null) return;
+
+    const newImage = prompt("Editar URL de imagen (dejar vacío para mantener la actual):", artist.image || "");
+    if (newImage === null) return;
+
+    const updated = {
+      name: newName.trim() || artist.name,
+      image: newImage.trim() === "" ? artist.image : newImage.trim(),
+      followers: artist.followers || 0,
+    };
+
+    try {
+      await updateArtist(artist.id, updated);
+      await fetchArtists();
+    } catch (err) {
+      console.error("Error al actualizar artista:", err);
+      alert("No se pudo guardar el artista. Revisa la consola.");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (confirm("¿Estás seguro de que quieres eliminar este artista?")) {
+      await deleteArtist(id);
+      fetchArtists();
+    }
+  };
+
   try {
-    const topArtists = await getTopArtists({ limit: 5 });
-    const artistIds = topArtists.map((artist) => artist.id);
-
-    const allTopTracks = await getTopTracks({ artistIds, limit: 15, perArtist: 3 });
-
     return (
       <DashboardLayout>
         <div className={styles.page}>
@@ -73,18 +104,18 @@ export default async function ArtistsPage() {
                   Estos son los artistas más relevantes del momento, junto con
                   sus canciones más populares.
                 </p>
+                <button onClick={handleCreate} className={styles.createButton}>Crear Artista</button>
               </header>
 
               <div className={styles.sections}>
-                {topArtists.map((artist) => (
+                {artists.map((artist) => (
                   <ArtistCard
                     key={artist.id}
                     artist={artist}
-                    topTracks={allTopTracks}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
                   />
                 ))}
-
-                
               </div>
             </main>
           </div>
@@ -92,13 +123,13 @@ export default async function ArtistsPage() {
       </DashboardLayout>
     );
   } catch (error) {
-    console.error("Error al cargar la página de artistas:", error);
+    console.error("Error al cargar la página de artistas:", error || e);
     return (
       <DashboardLayout>
         <div className={styles.page}>
           <main className={styles.main}>
             <div className={styles.emptyState}>
-              <h1>Error al cargar los artistas</h1>
+              <h1>{error || "Error al cargar los artistas"}</h1>
               <p>No se pudo obtener la información desde Kapelle.</p>
             </div>
           </main>

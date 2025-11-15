@@ -105,3 +105,59 @@
     font-size: 34px;
   }
 }
+
+/* Estilos para la tarjeta de artista */
+.artistCardHeader {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.artistImage {
+  width: 80px;  /* Imagen más pequeña */
+  height: 80px; /* Imagen más pequeña */
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.artistName {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.artistDescription {
+  /* Estilos heredados de .description */
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 600px;
+  margin: 0;
+  /* Estilo propio */
+  font-size: 16px;
+}
+
+/* Estilos para los botones */
+.buttonGroup {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.createButton,
+.editButton,
+.deleteButton {
+  background: none;
+  border: none; /* Quitamos el borde */
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-geist-sans);
+  color: rgba(255, 255, 255, 0.75);
+  transition: color 0.2s ease-in-out;
+}
+
+.createButton {
+  font-size: 20px; /* Botón de crear más grande */
+}
+
+.createButton:hover, .editButton:hover, .deleteButton:hover {
+  color: #fff;
+}
