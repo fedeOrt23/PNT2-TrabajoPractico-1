@@ -11,12 +11,12 @@ const menuOptions = [
 ];
 
 export default function ProfilePanel() {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
-  // Cerrar menú al hacer clic fuera
   useEffect(() => {
+    console.log("Usuario actual:", user);
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsOpen(false);
@@ -30,11 +30,9 @@ export default function ProfilePanel() {
   }, [isOpen]);
 
   const handleOptionClick = (option) => {
+    console.log(`Opción seleccionada: ${option}`);
     if (option.action === "logout") {
-      // Aquí puedes agregar tu lógica de cierre de sesión
-      console.log("Cerrando sesión...");
       logout();
-      // Por ejemplo: router.push('/login') o llamar a una función de logout
     } else {
       console.log(`Abriendo ${option.label}`);
     }
@@ -55,10 +53,10 @@ export default function ProfilePanel() {
       {isOpen && (
         <div className={styles.dropdown}>
           <div className={styles.userInfo}>
-            <div className={styles.avatarLarge}>MP</div>
+            <div className={styles.avatarLarge}>{user?.name?.charAt(0).toUpperCase()}</div>
             <div>
-              <p className={styles.name}>Maria Perez</p>
-              <p className={styles.email}>maria.perez@email.com</p>
+              <p className={styles.name}>{user?.name}</p>
+              <p className={styles.email}>{user?.email}</p>
             </div>
           </div>
 
