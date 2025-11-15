@@ -7,7 +7,8 @@ import styles from "./SidebarNav.module.css";
 const navItems = [
   { label: "Inicio", href: "/", icon: "♪" },
   { label: "Mi Biblioteca", href: "/library", icon: "♫" },
-  { label: "Artistas", href: "/artists", icon: "♬" },
+  { label: "Playlists", href: "/playlist", icon: "♬" },
+  { label: "Artistas", href: "/artists", icon: "🧑‍🎤" },
 ];
 
 export default function SidebarNav() {

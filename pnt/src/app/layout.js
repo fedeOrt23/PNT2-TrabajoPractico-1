@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "./contexts/AuthProvider";
 import { LibraryProvider } from "@/app/contexts/LibraryContext";
+import { PlaylistProvider } from "./contexts/PlaylistContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,9 +23,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <AuthProvider>
+        <AuthProvider> 
           {" "}
-          <LibraryProvider> {children} </LibraryProvider>{" "}
+          <LibraryProvider>
+             <PlaylistProvider> 
+                {children} 
+            </PlaylistProvider> 
+          </LibraryProvider> {" "}
         </AuthProvider>
       </body>
     </html>
