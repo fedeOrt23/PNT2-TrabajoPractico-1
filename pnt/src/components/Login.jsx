@@ -85,6 +85,16 @@ export default function Login() {
           <a href="/forgot-password" className={styles.link}>
             ¿Olvidaste tu contraseña?
           </a>
+          <div>
+            <span className={styles.span}>¿No tenes cuenta?</span>{' '}
+            <button
+              onClick={() => router.push('/register')}
+              className={styles.link}
+              type="button"
+            >
+              Regístrate aquí
+            </button>
+          </div>
         </div>
       </div>
     </div>

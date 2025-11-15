@@ -47,7 +47,7 @@ export default function ProfilePanel() {
         aria-label="Menú de perfil"
         aria-expanded={isOpen}
       >
-        <div className={styles.avatar}>MP</div>
+        <div className={styles.avatar}>{user?.name?.charAt(0).toUpperCase()}</div>
       </button>
 
       {isOpen && (

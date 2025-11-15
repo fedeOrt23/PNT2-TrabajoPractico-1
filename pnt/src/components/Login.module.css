@@ -66,7 +66,7 @@
 
 .submitButton {
   padding: 14px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #667eea;
   color: white;
   border: none;
   border-radius: 8px;
@@ -96,8 +96,15 @@
   text-decoration: none;
   font-size: 14px;
   transition: color 0.3s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .link:hover {
   color: #764ba2;
+}
+
+.span{
+  color: gray;
 }
