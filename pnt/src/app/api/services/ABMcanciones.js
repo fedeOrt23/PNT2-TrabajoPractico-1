@@ -1,38 +1,97 @@
-import { mockApiFetch } from "./helper/fechtMockapi";
 
-const CANCIONES_RESOURCE = "/canciones";
+const ARTISTAS_RESOURCE = "/artistas";
+const DEFAULT_MOCK_API_BASE =
+  "https://690160fdff8d792314bd3f83.mockapi.io/api/v1/";
 
-function resolveResourcePath(id) {
+function resolveCancionPath(id) {
   if (!id) {
     throw new Error("Se requiere un id");
   }
   return `${CANCIONES_RESOURCE}/${id}`;
 }
 
-export function listarCanciones(searchParams) {
-  return mockApiFetch(CANCIONES_RESOURCE, { searchParams });
+// --- READ: listar TODAS las canciones ---
+async function obtenerCanciones() {
+  const response = await fetch(`${MOCK_API_BASE_URL}${CANCIONES_RESOURCE}`);
+
+  if (!response.ok) {
+    const detalles = await response.text();
+    throw new Error(`Error ${response.status}: ${detalles}`);
+  }
+
+  return response.json();
 }
 
-export function obtenerCancion(id) {
-  return mockApiFetch(resolveResourcePath(id));
+// --- READ: obtener UNA canción ---
+async function obtenerCancion(id) {
+  const path = resolveCancionPath(id);
+  const response = await fetch(`${MOCK_API_BASE_URL}${path}`);
+
+  if (!response.ok) {
+    const detalles = await response.text();
+    throw new Error(`Error ${response.status}: ${detalles}`);
+  }
+
+  return response.json();
 }
 
-export function crearCancion(payload) {
-  return mockApiFetch(CANCIONES_RESOURCE, {
+// --- CREATE ---
+async function crearCancion(payload) {
+  if (!payload) {
+    throw new Error("Se requiere un payload para crear la canción");
+  }
+
+  const response = await fetch(`${MOCK_API_BASE_URL}${CANCIONES_RESOURCE}`, {
     method: "POST",
-    body: payload,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
   });
+
+  if (!response.ok) {
+    const detalles = await response.text();
+    throw new Error(`Error ${response.status}: ${detalles}`);
+  }
+
+  return response.json();
 }
 
-export function actualizarCancion(id, payload) {
-  return mockApiFetch(resolveResourcePath(id), {
+// --- UPDATE ---
+async function actualizarCancion(id, payload) {
+  if (!payload) {
+    throw new Error("Se requiere un payload para actualizar la canción");
+  }
+
+  const path = resolveCancionPath(id);
+  const response = await fetch(`${MOCK_API_BASE_URL}${path}`, {
     method: "PUT",
-    body: payload,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
   });
+
+  if (!response.ok) {
+    const detalles = await response.text();
+    throw new Error(`Error ${response.status}: ${detalles}`);
+  }
+
+  return response.json();
 }
 
-export function eliminarCancion(id) {
-  return mockApiFetch(resolveResourcePath(id), {
+// --- DELETE ---
+async function eliminarCancion(id) {
+  const path = resolveCancionPath(id);
+
+  const response = await fetch(`${MOCK_API_BASE_URL}${path}`, {
     method: "DELETE",
   });
+
+  if (!response.ok) {
+    const detalles = await response.text();
+    throw new Error(`Error ${response.status}: ${detalles}`);
+  }
+
+  return response.status === 204 ? null : response.json();
 }
