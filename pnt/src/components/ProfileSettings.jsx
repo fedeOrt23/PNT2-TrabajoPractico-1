@@ -30,7 +30,6 @@ export default function ProfileSettings() {
     setMessage({ type: '', text: '' });
 
     try {
-      // Actualizar información básica
       const response = await fetch(`https://690160fdff8d792314bd3f83.mockapi.io/api/v1/users/${user.id}`, {
         method: 'PUT',
         headers: {
@@ -47,7 +46,6 @@ export default function ProfileSettings() {
 
       const updatedUser = await response.json();
       
-      // Actualizar localStorage
       localStorage.setItem('user', JSON.stringify(updatedUser));
       
       setMessage({ type: 'success', text: 'Perfil actualizado correctamente' });
@@ -63,7 +61,6 @@ export default function ProfileSettings() {
     setLoading(true);
     setMessage({ type: '', text: '' });
 
-    // Validaciones
     if (!formData.currentPassword || !formData.newPassword || !formData.confirmPassword) {
       setMessage({ type: 'error', text: 'Completa todos los campos de contraseña' });
       setLoading(false);
@@ -83,7 +80,6 @@ export default function ProfileSettings() {
     }
 
     try {
-      // Verificar contraseña actual
       const verifyResponse = await fetch(`https://690160fdff8d792314bd3f83.mockapi.io/api/v1/users/${user.id}`);
       const userData = await verifyResponse.json();
 
@@ -93,7 +89,6 @@ export default function ProfileSettings() {
         return;
       }
 
-      // Actualizar contraseña
       const updateResponse = await fetch(`https://690160fdff8d792314bd3f83.mockapi.io/api/v1/users/${user.id}`, {
         method: 'PUT',
         headers: {

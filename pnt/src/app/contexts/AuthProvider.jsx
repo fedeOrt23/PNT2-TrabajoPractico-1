@@ -72,7 +72,6 @@ export default function AuthProvider({children}) {
     setLoading(true);
     
     try {
-      // 1. Verificar si el email ya existe
       const resp = await fetch("https://690160fdff8d792314bd3f83.mockapi.io/api/v1/users")
       const users = await resp.json();
       
@@ -84,7 +83,6 @@ export default function AuthProvider({children}) {
 
       const username = `${userData.name.toLowerCase()}.${userData.lastname.toLowerCase()}`;
 
-      // 2. Crear nuevo usuario en MockAPI
       const createResp = await fetch("https://690160fdff8d792314bd3f83.mockapi.io/api/v1/users", {
         method: "POST",
         headers: {
@@ -96,6 +94,7 @@ export default function AuthProvider({children}) {
           lastname: userData.lastname,
           email: userData.email,
           password: userData.password,
+          createdAt: new Date().toISOString()
         })
       });
 
@@ -105,7 +104,6 @@ export default function AuthProvider({children}) {
 
       const newUser = await createResp.json();
 
-      // 3. Auto-login después del registro
       setUser(newUser)
       setIsAuthenticated(true)
       localStorage.setItem("user", JSON.stringify(newUser))

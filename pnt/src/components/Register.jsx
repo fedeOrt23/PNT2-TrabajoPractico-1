@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/app/contexts/AuthProvider';
 import { useRouter } from 'next/navigation';
-import styles from './Login.module.css'; // Reutilizamos los estilos
+import styles from './Login.module.css';
 
 export default function Register() {
   const { register, loading } = useAuth();
@@ -25,13 +25,11 @@ export default function Register() {
   };
 
   const validateForm = () => {
-    // Validar campos vacíos
     if (!formData.name || !formData.lastname || !formData.email || !formData.password || !formData.confirmPassword) {
       setError('Por favor completa todos los campos');
       return false;
     }
 
-    // Validar nombre (mínimo 2 caracteres)
     if (formData.name.length < 2) {
       setError('El nombre debe tener al menos 2 caracteres');
       return false;
@@ -42,20 +40,17 @@ export default function Register() {
       return false;
     }
 
-    // Validar formato de email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setError('Ingresa un email válido');
       return false;
     }
 
-    // Validar longitud de contraseña
     if (formData.password.length < 6) {
       setError('La contraseña debe tener al menos 6 caracteres');
       return false;
     }
 
-    // Validar que las contraseñas coincidan
     if (formData.password !== formData.confirmPassword) {
       setError('Las contraseñas no coinciden');
       return false;
@@ -83,7 +78,6 @@ debugger
       if (result?.error) {
         setError(result.error);
       }
-      // Si success=true, el AuthProvider ya redirige a "/"
     } catch (err) {
       setError('Error inesperado. Intenta nuevamente.');
     }

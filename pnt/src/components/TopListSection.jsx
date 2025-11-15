@@ -8,7 +8,7 @@ import styles from "./TopListSection.module.css";
 
 export default function TopListSection({ title, items = [], accentColor = "#e74c3c" }) {
   const { addToLibrary } = useLibrary();
-  // Validación temprana
+
   if (!items || items.length === 0) {
     return (
       <section className={styles.section} style={{ "--accent-color": accentColor }}>
