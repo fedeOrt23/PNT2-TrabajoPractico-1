@@ -1,7 +1,9 @@
-
-const ARTISTAS_RESOURCE = "/artistas";
 const DEFAULT_MOCK_API_BASE =
-  "https://690160fdff8d792314bd3f83.mockapi.io/api/v1/";
+  "https://690160fdff8d792314bd3f83.mockapi.io/api/v1";
+const CANCIONES_RESOURCE = "/canciones";
+const MOCK_API_BASE_URL =
+  process.env.NEXT_PUBLIC_MOCK_API_BASE?.replace(/\/$/, "") ||
+  DEFAULT_MOCK_API_BASE;
 
 function resolveCancionPath(id) {
   if (!id) {
@@ -10,7 +12,7 @@ function resolveCancionPath(id) {
   return `${CANCIONES_RESOURCE}/${id}`;
 }
 
-// --- READ: listar TODAS las canciones ---
+
 async function obtenerCanciones() {
   const response = await fetch(`${MOCK_API_BASE_URL}${CANCIONES_RESOURCE}`);
 
@@ -22,7 +24,7 @@ async function obtenerCanciones() {
   return response.json();
 }
 
-// --- READ: obtener UNA canción ---
+
 async function obtenerCancion(id) {
   const path = resolveCancionPath(id);
   const response = await fetch(`${MOCK_API_BASE_URL}${path}`);
@@ -35,7 +37,7 @@ async function obtenerCancion(id) {
   return response.json();
 }
 
-// --- CREATE ---
+
 async function crearCancion(payload) {
   if (!payload) {
     throw new Error("Se requiere un payload para crear la canción");
@@ -57,7 +59,6 @@ async function crearCancion(payload) {
   return response.json();
 }
 
-// --- UPDATE ---
 async function actualizarCancion(id, payload) {
   if (!payload) {
     throw new Error("Se requiere un payload para actualizar la canción");
@@ -80,7 +81,7 @@ async function actualizarCancion(id, payload) {
   return response.json();
 }
 
-// --- DELETE ---
+
 async function eliminarCancion(id) {
   const path = resolveCancionPath(id);
 
@@ -95,3 +96,11 @@ async function eliminarCancion(id) {
 
   return response.status === 204 ? null : response.json();
 }
+
+export {
+  obtenerCanciones,
+  obtenerCancion,
+  crearCancion,
+  actualizarCancion,
+  eliminarCancion,
+};
