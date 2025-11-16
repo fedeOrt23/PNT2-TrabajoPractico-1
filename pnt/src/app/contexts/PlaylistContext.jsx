@@ -16,6 +16,8 @@ export function PlaylistProvider({ children }) {
     };
 
     setPlaylists((prev) => [...prev, newPlaylist]);
+
+    return newPlaylist.id;
   }
 
   function addToPlaylist(playlistId, song) {

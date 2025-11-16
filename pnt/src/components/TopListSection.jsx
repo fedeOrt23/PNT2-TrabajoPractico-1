@@ -7,6 +7,7 @@ import { useState } from "react";
 import Image from "next/image";
 import styles from "./TopListSection.module.css";
 
+import AddToPlaylistModal from "./AddToPlaylistModal";
 
 export default function TopListSection({
   title,
@@ -15,7 +16,7 @@ export default function TopListSection({
   type, //Agregué para identificar el tipo de item (cancion, artista o álbum)
 }) {
   const { addToLibrary } = useLibrary();
-  const { playlists, addToPlaylist } = usePlaylists();
+  const { playlists, addToPlaylist, createPlaylist } = usePlaylists();
   const [selectedTrack, setSelectedTrack] = useState(null); // Estado para identificar el item seleccionado
 
   // Validación temprana
@@ -89,40 +90,7 @@ export default function TopListSection({
                 </button>
               )}
                   
-              {  //popup para agregar a playlist
-              selectedTrack && (
-  <div className={styles.playlistPopup}>
-    <h4>Agregar a playlist</h4>
-
-    {playlists.length === 0 && (
-      <p style={{ padding: "0.5rem 0" }}>No tenés playlists todavía.</p>
-    )}
-
-    {playlists.map((p) => (
-      <button
-        key={p.id}
-        className={styles.playlistOption}
-        onClick={() => {
-          addToPlaylist(p.id, selectedTrack);
-          setSelectedTrack(null); // cerrar popup
-        }}
-      >
-        {p.name}
-      </button>
-    ))}
-
-    <button
-      className={styles.cancelButton}
-      onClick={() => setSelectedTrack(null)}
-    >
-      Cancelar
-    </button>
-  </div>
-)
-//fin popup
-}
-
-
+              
               <button
                 className={styles.saveButton}
                 onClick={() => addToLibrary(item)}
@@ -135,6 +103,22 @@ export default function TopListSection({
           </li>
         ))}
       </ol>
+
+      <AddToPlaylistModal
+  track={selectedTrack}
+  playlists={playlists}
+  onSelect={(playlistId) => {
+    addToPlaylist(playlistId, selectedTrack);
+    setSelectedTrack(null);
+  }}
+  onCreatePlaylist={(name, track) => {
+  const id = createPlaylist(name, "", [track]); 
+  return id; 
+}}
+  onClose={() => setSelectedTrack(null)}
+/>
+
+
     </section>
   );
 }
