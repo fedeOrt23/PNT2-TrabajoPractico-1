@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './Login.module.css';
+import authService from '../app/services/authService';
 
 export default function ForgotPassword() {
   const router = useRouter();
@@ -36,31 +37,14 @@ export default function ForgotPassword() {
     }
 
     try {
-      const response = await fetch('https://690160fdff8d792314bd3f83.mockapi.io/api/v1/users');
-      const users = await response.json();
-      
-      const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+      const result = await authService.resetPassword(email, newPassword);
 
-      if (!user) {
-        setError('No existe una cuenta con este email');
-        setLoading(false);
-        return;
+      if (result.success) {
+        alert('Contraseña actualizada correctamente');
+        router.push('/login');
+      } else {
+        setError(result.error);
       }
-
-      const updateResponse = await fetch(`https://690160fdff8d792314bd3f83.mockapi.io/api/v1/users/${user.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          password: newPassword
-        })
-      });
-
-      if (!updateResponse.ok) throw new Error('Error al actualizar');
-
-      alert('Contraseña actualizada correctamente');
-      router.push('/login');
     } catch (err) {
       setError('Error al actualizar la contraseña. Intenta nuevamente.');
     } finally {

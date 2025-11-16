@@ -2,8 +2,10 @@
 
 import { useRouter } from 'next/navigation';
 import React, { createContext, useContext, useState, useEffect } from 'react'
+import authService from '../services/authService';
 
 const AuthContext = createContext()
+
 export const useAuth = () => useContext(AuthContext) 
 
 
@@ -18,8 +20,7 @@ export default function AuthProvider({children}) {
     try {
       const userStorage = localStorage.getItem("user");
       const isAuthStorage = localStorage.getItem("isAuthenticated");
-      console.log("userStorage: ", userStorage);
-      console.log("isAuthStorage: ", isAuthStorage);
+
       if (userStorage) {
         setUser(JSON.parse(userStorage));
       }
@@ -34,35 +35,22 @@ export default function AuthProvider({children}) {
   }, []);
 
   const login = async(userData) => {
-    console.log("login userData: ", userData);
     setLoading(true);
     
     try {
-      console.log("userData: ", userData);
+      const result = await authService.login(userData.email, userData.password);
       
-      const resp = await fetch("https://690160fdff8d792314bd3f83.mockapi.io/api/v1/users")
-      const data = await resp.json();
-
-      console.log("data: ", data);
-      
-      const userFind = data.find(u => u.email === userData.email && u.password === userData.password)
-
-      console.log("user: ", userFind);
-      
-      if(userFind){
-        setUser(userFind)
+      if (result.success) {
+        setUser(result.user)
         setIsAuthenticated(true)
-        localStorage.setItem("user", JSON.stringify(userFind))
+        localStorage.setItem("user", JSON.stringify(result.user))
         localStorage.setItem("isAuthenticated", "true")
         router.push("/")
-        return { success: true, user: userFind }
-      } else {
-        setIsAuthenticated(false)
-        return { success: false, error: "Usuario o contraseña incorrectos" }
       }
+      return result;
+
     } catch (error) {
-      console.log("Error en login:", error);
-      return { success: false, error: "Error inesperado. Intenta nuevamente." }
+      return { success: false, error: "Error de conexión" }
     } finally {
       setLoading(false);
     }
@@ -72,49 +60,19 @@ export default function AuthProvider({children}) {
     setLoading(true);
     
     try {
-      const resp = await fetch("https://690160fdff8d792314bd3f83.mockapi.io/api/v1/users")
-      const users = await resp.json();
+      const result = await authService.register(userData);
       
-      const emailExists = users.find(u => u.email === userData.email);
+      if (result.success) {
+        setUser(result.user)
+        setIsAuthenticated(true)
+        localStorage.setItem("user", JSON.stringify(result.user))
+        localStorage.setItem("isAuthenticated", "true")
+        router.push("/")
+      }
       
-      if (emailExists) {
-        return { success: false, error: "Este email ya está registrado" }
-      }
-
-      const username = `${userData.name.toLowerCase()}.${userData.lastname.toLowerCase()}`;
-
-      const createResp = await fetch("https://690160fdff8d792314bd3f83.mockapi.io/api/v1/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          username: username,
-          name: userData.name,
-          lastname: userData.lastname,
-          email: userData.email,
-          password: userData.password,
-          createdAt: new Date().toISOString()
-        })
-      });
-
-      if (!createResp.ok) {
-        throw new Error("Error al crear usuario");
-      }
-
-      const newUser = await createResp.json();
-
-      setUser(newUser)
-      setIsAuthenticated(true)
-      localStorage.setItem("user", JSON.stringify(newUser))
-      localStorage.setItem("isAuthenticated", "true")
-
-      router.push("/")
-      return { success: true, user: newUser }
-
+      return result;
     } catch (error) {
-      console.error("Error en registro:", error);
-      return { success: false, error: "Error al crear la cuenta. Intenta nuevamente." }
+      return { success: false, error: "Error al crear la cuenta" }
     } finally {
       setLoading(false);
     }
