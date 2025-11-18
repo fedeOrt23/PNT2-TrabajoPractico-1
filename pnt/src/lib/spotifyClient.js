@@ -30,14 +30,12 @@ function resolveInternalUrl(pathname) {  // Devuelve bien la URL absoluta para e
       : `https://${envBase}`;
     return new URL(pathname, baseWithProtocol).toString();
   }
-
- 
   const port = process.env.PORT ?? 3000;
   return new URL(pathname, `http://127.0.0.1:${port}`).toString();
 }
 
 
-async function fetchAccessToken(forceRefresh = false) { // Obtiene el token de acceso, usando caché si es posible.
+async function fetchAccessToken(forceRefresh = false) { // Obtiene el token de acceso, usando cache si es posible.
                                                         // Si esta vencido, lo renueva.
   const now = Math.floor(Date.now() / 1000);
   if (!forceRefresh && cachedToken && now < cachedTokenExpiry - 30) {
@@ -250,7 +248,7 @@ export async function getTopTracks({
       ? market.trim().toUpperCase()
       : MARKET_CODE;
 
-  const uniqueArtistIds = [...new Set(artistIds.filter(Boolean))];
+  const uniqueArtistIds = [...new Set(artistIds.filter(Boolean))]; //filtro por booelan por si viene un undefind u algo
 
   if (uniqueArtistIds.length === 0) {
     return [];
@@ -264,21 +262,23 @@ export async function getTopTracks({
     )
   );
 
+  console.log("Top tracks fetch ", responses);
+
   const collected = [];
 
   responses.forEach((result, index) => {
     const artistId = uniqueArtistIds[index];
 
     if (result.status !== "fulfilled") {
-      console.error(`[spotify] Top tracks fetch failed for artist ${artistId}`, result.reason);
+      console.log(`[spotify] Top tracks fetch failed for artist ${artistId}`, result.reason);
       return;
     }
 
     const tracks = result.value?.tracks ?? [];
-    tracks.slice(0, perArtist).forEach((track) => {
+    tracks.slice(0, perArtist).forEach((track) => { //tomo solo las primeras perArtist canciones de cada artista
       if (!track) return;
 
-      const trackId = track.id ?? `${artistId}-${track.name ?? "track"}`;
+      const trackId = track.id;
       collected.push({
         artistId,
         id: trackId,
