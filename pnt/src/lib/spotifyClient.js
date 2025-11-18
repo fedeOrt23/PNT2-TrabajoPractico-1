@@ -77,12 +77,14 @@ async function fetchAccessToken(forceRefresh = false) { // Obtiene el token de a
 }
 
 function buildSpotifyUrl(pathname, searchParams) {
+  // Normaliza la ruta frente al host base de Spotify (acepta rutas o URLs absolutas).
   const url = new URL(pathname, SPOTIFY_API_BASE);
 
   if (!searchParams) {
     return url.toString();
   }
 
+  // Serializa cada par clave/valor (maneja arrays y descarta null/undefined).
   Object.entries(searchParams).forEach(([key, value]) => {
     if (value == null) { //.ignore valores null y undefined
       return;
@@ -112,13 +114,8 @@ export async function spotifyFetch(
         ...headers,
       };
 
-      const isFormData =
-        typeof FormData !== "undefined" && body instanceof FormData;
-      const isUrlParams =
-        typeof URLSearchParams !== "undefined" && body instanceof URLSearchParams;
-
       let requestBody = body;
-      if (body && !isFormData && !isUrlParams) {
+      if (body) {
         if (!requestHeaders["Content-Type"]) {
           requestHeaders["Content-Type"] = "application/json";
         }
