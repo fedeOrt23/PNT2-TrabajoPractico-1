@@ -23,7 +23,7 @@ export default function GeneralPage() {
     image: "",
   });
 
-  const fetchSongs = useCallback(async () => {
+  const fetchSongs = useCallback(async () => { //me da una funcion memorizada
     try {
       setLoading(true);
 
@@ -123,7 +123,7 @@ export default function GeneralPage() {
         album: trimmedAlbum || undefined,
         image: trimmedCover || undefined,
       });
-      await fetchSongs();
+      await fetchSongs(); //llama por dentro a los sets de estado para actualizar la lista
       setNewSong({ name: "", artist: "", album: "", image: "" });
       alert("Canción creada correctamente");
     } catch (err) {

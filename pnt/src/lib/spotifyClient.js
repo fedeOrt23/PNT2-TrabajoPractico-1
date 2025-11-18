@@ -77,19 +77,22 @@ async function fetchAccessToken(forceRefresh = false) { // Obtiene el token de a
 }
 
 function buildSpotifyUrl(pathname, searchParams) {
-  const url = pathname.startsWith("http://") || pathname.startsWith("https://")
-    ? new URL(pathname)
-    : new URL(pathname, SPOTIFY_API_BASE);
+  const url = new URL(pathname, SPOTIFY_API_BASE);
 
-  if (searchParams) {
-    Object.entries(searchParams).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        value.forEach((v) => url.searchParams.append(key, String(v)));
-      } else if (value !== undefined && value !== null) {
-        url.searchParams.set(key, String(value));
-      }
-    });
+  if (!searchParams) {
+    return url.toString();
   }
+
+  Object.entries(searchParams).forEach(([key, value]) => {
+    if (value == null) { //.ignore valores null y undefined
+      return;
+    }
+    if (Array.isArray(value)) {
+      value.forEach((v) => url.searchParams.append(key, String(v))); //si es array agrego un valor por cada elemento
+    } else {
+      url.searchParams.set(key, String(value));
+    }
+  });
 
   return url.toString();
 }
