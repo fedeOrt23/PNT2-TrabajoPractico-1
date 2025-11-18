@@ -15,24 +15,6 @@ const MARKET_CODE = (DEFAULT_MARKET || "ES").toUpperCase();
 let cachedToken = null;
 let cachedTokenExpiry = 0;
 
-function resolveInternalUrl(pathname) {  // Devuelve bien la URL absoluta para el endpoint interno dado el pathname
-  if (/^https?:\/\//i.test(pathname)) {
-    return pathname;
-  }
-
-  const envBase =
-    process.env.NEXT_PUBLIC_APP_URL?.trim() ??
-    process.env.NEXTAUTH_URL?.trim() ??
-    null;
-  if (envBase) {
-    const baseWithProtocol = /^https?:\/\//i.test(envBase)
-      ? envBase
-      : `https://${envBase}`;
-    return new URL(pathname, baseWithProtocol).toString();
-  }
-  const port = process.env.PORT ?? 3000;
-  return new URL(pathname, `http://127.0.0.1:${port}`).toString();
-}
 
 
 async function fetchAccessToken(forceRefresh = false) { // Obtiene el token de acceso, usando cache si es posible.
@@ -46,8 +28,9 @@ async function fetchAccessToken(forceRefresh = false) { // Obtiene el token de a
     cachedToken = null;
     cachedTokenExpiry = 0;
   }
-
+  const INTERNAL_TOKEN_PATH =  "http://localhost:3000/api/spotify_token"
   const endpoint = resolveInternalUrl(INTERNAL_TOKEN_PATH);
+  console.log("Fetching Spotify token from internal endpoint:", endpoint);
   const response = await fetch(endpoint, {
     method: "GET",
     cache: "no-store",
